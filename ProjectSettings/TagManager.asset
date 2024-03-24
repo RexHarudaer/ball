@@ -6,6 +6,7 @@ TagManager:
   tags:
   - DeathLine
   - ball
+  - DeathLine2
   layers:
   - Default
   - TransparentFX

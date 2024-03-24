@@ -1,9 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+
 
 public class ball : MonoBehaviour
 {
+    int score = 0 ;
+    [SerializeField] Text scoreText;
+    [SerializeField] Text scoreText2;
     Rigidbody2D ballRigidbody2D;
     public float speedx; //水平速度
     public float speedy; //垂直速度
@@ -19,15 +24,25 @@ public class ball : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        void OnTriggerEnter2D(Collision2D other)
+        
+    }
+
+     void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.gameObject.tag == "DeathLine")
         {
-            if (other.gameObject.name == "DeathLine")
-            {
-             
-            }
+            score ++;
+            scoreText.text = score.ToString();
+        }
+        else if (other.gameObject.tag == "DeathLine2")
+        {
+            score++;
+            scoreText2.text = score.ToString();
         }
     }
-   void OnCollisionEnter2D(Collision2D collision)
+
+
+    void OnCollisionEnter2D(Collision2D collision)
     {
         lockSpeed();
     }
