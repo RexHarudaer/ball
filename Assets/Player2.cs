@@ -22,21 +22,7 @@ public class Player2 : MonoBehaviour
         {
             transform.Translate(-moveSpeed*Time.deltaTime, 0, 0);
         }
-        void OnCollisionEnter2D(Collision2D other)
-        {
-            if (other.gameObject.name == "ball")
-            {
-
-            }
-
-        }
-        void OnTriggerEnter2D(Collision2D other)
-        {
-            if (other.gameObject.name == "ball")
-            {
-
-            }
-        }
+        
 
     }
 }
