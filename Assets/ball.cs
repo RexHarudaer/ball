@@ -1,32 +1,44 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Data.Common;
+using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Threading;
+using UnityEngine.SceneManagement;
+
 
 
 public class ball : MonoBehaviour
-{
-    int score = 0 ;
-    int score1 = 0;
-    float ballDelay = 2;
+{   
+      
+    public int score = 0 ;
+    public int score1 = 0;
+    
     [SerializeField] Text scoreText;
     [SerializeField] Text scoreText2;
+    [SerializeField] GameObject Replay;
+    [SerializeField] GameObject play;
     Rigidbody2D ballRigidbody2D;
     public float speedx; //水平速度
     public float speedy; //垂直速度
     private Vector3 initialPosition;
-    
+   
     // Start is called before the first frame update
     void Start()
     {
-     
-            initialPosition = transform.position;
+            Time.timeScale = 0;
+            initialPosition = transform.position; //記住當前位置
             ballRigidbody2D = GetComponent<Rigidbody2D>();
             ballRigidbody2D.velocity = new Vector2(0, -speedy);
-            
+       
        
     }
    
+    // something before delay
+   
+    // something after delay
     // Update is called once per frame
     void Update()
     {
@@ -50,16 +62,31 @@ public class ball : MonoBehaviour
        if (other.gameObject.tag == "DeathLine")
         {
             score ++;
+            if (score > 5)
+            {
+                score = 5;
+            }
             scoreText.text = score.ToString();
             transform.position = initialPosition;
-            Start();
+            ballRigidbody2D.velocity = new Vector2(0, 0);
+            Invoke("ballstar", 2f);
+            Die();
         }
         else if (other.gameObject.tag == "DeathLine2")
         {
             score1 ++;
+            if (score1 > 5)
+            {
+                score1 = 5;
+               
+            }
+           
             scoreText2.text = score1.ToString();
             transform.position = initialPosition;
-            Start();
+            ballRigidbody2D.velocity = new Vector2(0, 0);
+            Invoke("ballstar", 2f);
+            Die();
+
         }
       
     }
@@ -98,5 +125,35 @@ public class ball : MonoBehaviour
             return speedy;
         }
     }
-   
+   void ballstar()
+    {
+        initialPosition = transform.position;     
+        ballRigidbody2D = GetComponent<Rigidbody2D>();      
+        ballRigidbody2D.velocity = new Vector2(0, -speedy);
+    
+    }
+   void Die()
+    {
+        if (score >= 5)
+        {
+            Time.timeScale = 0;
+            Replay.SetActive(true);
+        }
+        else if (score1 >= 5)
+        {
+            Time.timeScale = 0;
+            Replay.SetActive(true);
+        }
+    }
+    public void GameReplay()
+    {
+        Time.timeScale = 1;
+        SceneManager.LoadScene("SampleScene");
+    }
+    public void Gameplay()
+    {
+        Time.timeScale = 1;
+       
+        play.SetActive(false);
+    }
 }
